@@ -29,11 +29,6 @@
             "bernardomacedo\\DBTranslator\\": "src"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "bernardomacedo\\DBTranslator\\Test\\": "tests"
-        }
-    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
