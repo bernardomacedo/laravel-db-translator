@@ -31,17 +31,17 @@ function intl($text = false, $params = null)
      */
     App::setLocale($params['locale']);
 
-    if (Lang::has($file_namespace.$params['group'].'.'.$hash))
+    if (Lang::has($file_namespace.'::'.$params['group'].'.'.$hash))
     {
         if (isset($params['choice'])) {
             if (!isset($params['value'])) {
                 throw new Exception('To choose translation, you need to set a "value" parameter');
             }
-            $text = trans_choice($file_namespace.$params['group'].'.'.$hash, $params['value'], $params['vars']);
+            $text = trans_choice($file_namespace.'::'.$params['group'].'.'.$hash, $params['value'], $params['vars']);
             App::setLocale($original_locale);
             return $text;
         } else {
-            $text = trans($file_namespace.$params['group'].'.'.$hash, $params['vars']);
+            $text = trans($file_namespace.'::'.$params['group'].'.'.$hash, $params['vars']);
             App::setLocale($original_locale);
             return $text;
         }

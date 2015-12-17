@@ -20,6 +20,10 @@ class DBTranslatorServiceProvider extends ServiceProvider
             __DIR__.'/../resources/config/laravel-db-translator.php' => $this->app->configPath().'/db-translator.php',
         ], 'config');
 
+        $this->publishes([
+            __DIR__.'/../resources/lang' => base_path('resources/lang/vendor/dbtranslator'),
+        ], 'lang');
+        
         if (!class_exists('CreateTranslationsTable')) {
             // Publish the migration
             $timestamp = date('Y_m_d_His', time());

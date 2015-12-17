@@ -49,9 +49,7 @@ return [';
                     $file .= '\''.array_keys($translated)[0].'\' => \''.$save_value.'\',';
                 }
                 $file .= '];';
-                $gitignore = 'intltranslations_*';
-                \Storage::disk('translations')->put($language.'/intltranslations_'.$group.'.php', $file);
-                \Storage::disk('translations')->put($language.'/.gitignore', $gitignore);
+                \Storage::disk('translations')->put($language.'/'.$group.'.php', $file);
             }
         }
         dd('completed');
