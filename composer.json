@@ -1,0 +1,42 @@
+{
+    "name": "bernardomacedo/laravel-db-translation",
+    "description": "Laravel 5 database translation extension",
+    "keywords": [
+        "bernardomacedo",
+        "laravel-db-translator",
+        "laravel",
+        "translation"
+    ],
+    "homepage": "https://github.com/bernardomacedo/laravel-db-translator",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bernardo Sousa de Macedo",
+            "email": "bernardo.macedo@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*",
+        "scrutinizer/ocular": "~1.1",
+        "orchestra/testbench": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "bernardomacedo\\DBTranslator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "bernardomacedo\\DBTranslator\\Test\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
