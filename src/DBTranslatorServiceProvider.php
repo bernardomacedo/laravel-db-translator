@@ -5,7 +5,6 @@ namespace bernardomacedo\DBTranslator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Filesystem;
-use Illuminate\Translation\Translator;
 
 class DBTranslatorServiceProvider extends ServiceProvider
 {
@@ -18,9 +17,11 @@ class DBTranslatorServiceProvider extends ServiceProvider
          * php artisan vendor:publish --provider="bernardomacedo\DBTranslator\DBTranslatorServiceProvider"
          */
         $this->publishes([
-            __DIR__.'/../resources/config/laravel-db-translator.php' => $this->app->configPath().'/db-translator.php',
+            __DIR__.'/../resources/config/laravel-db-translator.php' => config_path('db-translator.php'),
         ], 'config');
 
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'dbtranslator');
+        
         $this->publishes([
             __DIR__.'/../resources/lang' => base_path('resources/lang/vendor/dbtranslator'),
         ], 'lang');
@@ -44,8 +45,6 @@ class DBTranslatorServiceProvider extends ServiceProvider
             ];
             return new Filesystem($client);
         });
-        Translator::addNamespace('dbtranslator', base_path('resources/vendor/dbtranslator'));
-
     }
 
     /**
@@ -53,6 +52,9 @@ class DBTranslatorServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(
+            __DIR__.'/../resources/config/laravel-db-translator.php', 'dbtranslator'
+        );
         $this->app->singleton('dbtranslator', 'Bernardomacedo\DBTranslator\DBTranslator');
     }
 }

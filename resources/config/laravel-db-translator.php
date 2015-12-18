@@ -24,10 +24,5 @@ return [
          * Place your User model in this option
          */
         'user'  => config('auth.model'),
-    ],
-    /**
-     * Namespace used for translations
-     */
-    'namespace' => 'dbranslator',
-
+    ]
 ];

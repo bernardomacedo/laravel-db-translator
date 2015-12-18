@@ -20,7 +20,7 @@ function intl($text = false, $params = null)
      * lets save the locale in a variable
      */
     $original_locale        = Lang::getLocale();
-    $file_namespace         = $config['namespace'];
+    $file_namespace         = 'dbtranslator';
     $params['group']        = isset($params['group']) ? $params['group'] : 'general';
     $hash                   = md5($text).sha1($text);
     $params['vars']         = isset($params['vars']) ? $params['vars'] : [];
