@@ -24,7 +24,13 @@ First register the service provider and facade in your application.
 ];
 ```
 
-To create the migrations use:
+To publish all settings...
+
+``` bash
+php artisan vendor:publish --provider="bernardomacedo\DBTranslator\DBTranslatorServiceProvider"
+```
+
+...or individually:
 
 ``` bash
 $ php artisan vendor:publish --provider="bernardomacedo\DBTranslator\DBTranslatorServiceProvider" --tag="config"
@@ -36,6 +42,11 @@ $ php artisan vendor:publish --provider="bernardomacedo\DBTranslator\DBTranslato
 $ php artisan vendor:publish --provider="bernardomacedo\DBTranslator\DBTranslatorServiceProvider" --tag="lang"
 ```
 
+And run migrations
+
+``` bash
+$ php artisan migrate
+```
 ## Usage
 
 In a blade template use:
