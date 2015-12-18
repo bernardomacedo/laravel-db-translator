@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Storage;
 
 class DBTranslator
 {
-    public function generate()
+    public static function generate()
     {
+        $config = config('db-translator');
         /**
          * First we get the list of languages and iterate for each one of them
          * to get the associated translations
@@ -49,9 +50,9 @@ return [';
                     $file .= '\''.array_keys($translated)[0].'\' => \''.$save_value.'\',';
                 }
                 $file .= '];';
-                \Storage::disk('translations')->put($language.'/'.$group.'.php', $file);
+                \Storage::disk($config['storage_driver'])->put($language.'/'.$group.'.php', $file);
             }
         }
-        dd('completed');
+        return true;
     }
 }

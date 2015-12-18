@@ -47,6 +47,19 @@ And run migrations
 ``` bash
 $ php artisan migrate
 ```
+
+Add a filesystem.php storage:
+
+```
+    'disks' => [
+        ...
+        'translator' => [
+            'driver'    => 'local',
+            'root'      => base_path('resources/lang/vendor/dbtranslator')
+        ],
+        ...
+```
+
 ## Usage
 
 In a blade template use:

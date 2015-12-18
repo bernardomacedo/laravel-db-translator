@@ -8,9 +8,14 @@ class Intl extends Model
 {
     protected $table = 'translations_variables';
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->table = config('db-translator.table_names.variables');
+    }
+
     public function translations()
     {
-        $this->table = config('db-translator.table_names.variables');
         return $this->hasMany('bernardomacedo\DBTranslator\Models\Translated');
     }
 }

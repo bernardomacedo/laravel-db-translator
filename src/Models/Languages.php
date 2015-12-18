@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Languages extends Model
 {
-    protected $table = config('db-translator.table_names.languages');
+    protected $table = 'languages';
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->table = config('db-translator.table_names.languages');
+    }
 
     public function users()
     {
