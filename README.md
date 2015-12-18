@@ -50,7 +50,7 @@ $ php artisan migrate
 
 Add a disk to the `filesystems.php` filestorage:
 
-If you change the default disk name, because it might conflict with another package or with a potential future one, be sure to change it under the published `db-translator.php => storage_driver` parameter.
+If you change the default disk name, because it might conflict with another package or with a potential future one, be sure to change it under the published db-translator.php => storage_driver` parameter.
 
 ```
     'disks' => [
@@ -70,4 +70,27 @@ In a blade template use:
 {{ intl('some text to translate') }}
 ```
 
+## Generating translations
 
+on a controller class
+
+```php
+use bernardomacedo\DBTranslator\DBTranslator;
+
+class SomeControllerName extends BaseController
+{
+    public function generate_translations()
+    {
+        /**
+         * This will generate the language translations for all
+         * translated texts in the database, and will assume
+         * the original language by default.
+         */
+        DBTranslator::generate();
+        /**
+         * Redirect or do whatever you wish after generation
+         */
+        dd('completed');
+    }
+}
+```
