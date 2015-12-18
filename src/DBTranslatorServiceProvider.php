@@ -5,6 +5,7 @@ namespace bernardomacedo\DBTranslator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Filesystem;
+use Illuminate\Translation\Translator;
 
 class DBTranslatorServiceProvider extends ServiceProvider
 {
@@ -43,6 +44,7 @@ class DBTranslatorServiceProvider extends ServiceProvider
             ];
             return new Filesystem($client);
         });
+        Translator::addNamespace('dbtranslator', base_path('resources/vendor/dbtranslator'));
 
     }
 
