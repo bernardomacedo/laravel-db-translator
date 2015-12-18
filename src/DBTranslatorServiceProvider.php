@@ -23,7 +23,7 @@ class DBTranslatorServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/lang' => base_path('resources/lang/vendor/dbtranslator'),
         ], 'lang');
-        
+
         if (!class_exists('CreateTranslationsTable')) {
             // Publish the migration
             $timestamp = date('Y_m_d_His', time());
@@ -40,7 +40,7 @@ class DBTranslatorServiceProvider extends ServiceProvider
             $client = [
                 'driver'    => 'local',
                 'root'      => base_path('resources/vendor/dbtranslator')
-            ]
+            ];
             return new Filesystem($client);
         });
 

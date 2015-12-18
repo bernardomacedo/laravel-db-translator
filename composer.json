@@ -26,11 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "bernardomacedo\\DBTranslator\\": "src"
+            "bernardomacedo\\DBTranslator\\": "src/"
         }
     },
     "extra": {
         "branch-alias": {
+            "1.0.0": "1.0.0",
             "dev-master": "1.0-dev"
         }
     }
