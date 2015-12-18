@@ -48,7 +48,7 @@ And run migrations
 $ php artisan migrate
 ```
 
-Add a filesystem.php storage:
+Add a disk to the `filesystems.php` file:
 
 ```
     'disks' => [
