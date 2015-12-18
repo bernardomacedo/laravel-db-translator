@@ -28,7 +28,7 @@ class DBTranslatorServiceProvider extends ServiceProvider
             // Publish the migration
             $timestamp = date('Y_m_d_His', time());
             $this->publishes([
-                __DIR__.'/../resources/migrations/create_translations_tables.php.stub' => $this->app->basePath().'/'.'database/migrations/'.$timestamp.'_create_translations_tables.php',
+                __DIR__.'/../resources/migrations/create_translations_tables.php.stub' => $this->app->basePath().'/database/migrations/'.$timestamp.'_create_translations_tables.php',
             ], 'migrations');
         }
         /**
