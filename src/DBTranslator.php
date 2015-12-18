@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DBTranslator
 {
-        public function generate()
+    public function generate()
     {
         /**
          * First we get the list of languages and iterate for each one of them
