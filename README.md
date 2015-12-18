@@ -48,7 +48,9 @@ And run migrations
 $ php artisan migrate
 ```
 
-Add a disk to the `filesystems.php` file:
+Add a disk to the `filesystems.php` filestorage:
+
+If you change the default disk name, because it might conflict with another package or with a potential future one, be sure to change it under the published `db-translator.php` config file
 
 ```
     'disks' => [
