@@ -13,14 +13,16 @@ class CreateTranslationsTable extends Migration
     public function up()
     {
         $config = config('db-translator');
+
         /**
          * First lets add the language column to the user table if it does not exist
          */
         if (!Schema::hasColumn($config['table_names']['users'], $config['columns']['user_language_column'])) {
-            Schema::table($config['table_names']['users'], function ($table) {
+            Schema::table($config['table_names']['users'], function ($table) use ($config) {
                 $table->string($config['columns']['user_language_column'], 5)->default('en');
             });
         }
+
         /**
          * Create the languages table
          */
@@ -154,7 +156,7 @@ class CreateTranslationsTable extends Migration
          * Create the translated table
          */
         if (!Schema::hasTable($config['table_names']['translated'])) {
-            Schema::create($config['table_names']['translated'], function (Blueprint $table) {
+            Schema::create($config['table_names']['translated'], function (Blueprint $table) use ($config) {
                 $table->integer('variable_id')->unsigned();
                 $table->integer('language_id')->unsigned();
                 $table->text('translation');
@@ -178,7 +180,7 @@ class CreateTranslationsTable extends Migration
         Schema::drop($config['table_names']['variables']);
         Schema::drop($config['table_names']['languages']);
         if (Schema::hasColumn($config['table_names']['users'], $config['columns']['user_language_column'])) {
-            Schema::table($config['table_names']['users'], function ($table) {
+            Schema::table($config['table_names']['users'], function ($table) use ($config) {
                 $table->drop($config['columns']['user_language_column']);
             });
         }
