@@ -147,7 +147,6 @@ class CreateTranslationsTables extends Migration
                 $table->increments('id');
                 $table->text('text');
                 $table->text('group');
-                $table->text('explanation')->nullable();
                 $table->string('md5sha1', 255);
                 $table->timestamps();
             });
