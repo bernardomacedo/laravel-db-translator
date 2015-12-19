@@ -66,11 +66,21 @@ If you change the default disk name, because it might conflict with another pack
 
 In a blade template use:
 
-```
-{{ intl('some text to translate') }}
+```php
+{{ lang('some text to translate') }}
+{{ lang(':count apple named :name|:count apples named :name', 2, ['name' => 'Bernardo']) }}
+{{ lang(':count apple named :name|:count apples named :name', ['name' => 'Bernardo'], 2) }}
 ```
 
-## Generating translations
+As long as the translating text is the first function argument, you can place the other arguments in any order.
+
+## Translating a text
+
+```php
+DBTranslator::translate($variable, $language);
+```
+
+## Generating the translation files
 
 on a controller class
 
@@ -90,7 +100,7 @@ class SomeControllerName extends BaseController
         /**
          * Redirect or do whatever you wish after generation
          */
-        dd('completed');
+        return redirect()->route('home');
     }
 }
 ```

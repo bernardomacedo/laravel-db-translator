@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class DBTranslator
 {
+
+    public static function hasTranslation($variable_id, $language)
+    {
+
+    }
+
     public static function generate()
     {
         $config = config('db-translator');
