@@ -1,5 +1,10 @@
 # Laravel Database Translator
 
+[![Total Downloads](https://poser.pugx.org/bernardomacedo/laravel-db-translator/d/total.svg)](https://packagist.org/packages/bernardomacedo/laravel-db-translator)
+[![Latest Stable Version](https://poser.pugx.org/bernardomacedo/laravel-db-translator/v/stable.svg)](https://packagist.org/packages/bernardomacedo/laravel-db-translator)
+[![Latest Unstable Version](https://poser.pugx.org/bernardomacedo/laravel-db-translator/v/unstable.svg)](https://packagist.org/packages/bernardomacedo/laravel-db-translator)
+[![License](https://poser.pugx.org/bernardomacedo/laravel-db-translator/license.svg)](https://packagist.org/packages/bernardomacedo/laravel-db-translator)
+
 This package allows you to add translations to database.
 It replaces the current language translator with a more efficient one.
 
@@ -192,4 +197,8 @@ class SomeControllerName extends BaseController
     }
 }
 ```
+
+### License
+
+The Laravel Database Translator is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 
