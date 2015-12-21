@@ -3,6 +3,7 @@
 namespace bernardomacedo\DBTranslator\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use bernardomacedo\DBTranslator\Models\Languages;
 
 class Translated extends Model
 {
@@ -14,9 +15,16 @@ class Translated extends Model
         $this->table = config('db-translator.table_names.translated');
     }
 
-    public function scopeLanguage($query, $lang)
+    public function scopeLanguage($query, $language_id)
     {
-        return $query->whereLanguage_id($lang);
+        if (!is_integer($language_id))
+        {
+            /**
+             * Lets find the language id for this 
+             */
+            $language_id = Languages::whereIso($language_id)->first()->id;
+        }
+        return $query->whereLanguage_id($language_id);
     }
 
     public function scopeVariable($query, $var)

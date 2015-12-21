@@ -151,3 +151,41 @@ resources/lang/vendor/dbtranslator/
         - general.php
         - some_group.php
 ```
+
+## Getting all variables on database
+
+```php
+use bernardomacedo\DBTranslator\Models\Intl;
+
+class SomeControllerName extends BaseController
+{
+    public function some_function()
+    {
+        dd(Intl::all());
+    }
+}
+```
+
+## Getting available translations
+
+```php
+use bernardomacedo\DBTranslator\Models\Translated;
+
+class SomeControllerName extends BaseController
+{
+    public function some_function()
+    {
+        /**
+         * Gets all available translations
+         */
+        $all = Translated::all();
+
+        /**
+         * Gets all available translations
+         */
+         $portuguese = Translated::language('pt')->get(); // using string ISO
+         $portuguese = Translated::language(64)->get(); // using ID for the language
+    }
+}
+```
+
