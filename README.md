@@ -3,6 +3,9 @@
 This package allows you to add translations to database.
 It replaces the current language translator with a more efficient one.
 
+## Compatibility
+Laravel Framework 5.1.27
+
 ## Install
 
 ``` bash
