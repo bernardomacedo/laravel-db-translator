@@ -82,7 +82,7 @@ So, the group parameter allows you to differentiate the same translation to be t
 {{ lang('participations', 'some_group') }}  /* some_group group assumed */
 ```
 
-`Note: be sure the group parameter has more than 2 characters long, so DBTRanslator does not confuse it by a language.`
+`Note: be sure the group parameter has more than 2 characters long, so DBTRanslator does not confuse it by a language.
 
 As long as the translating text is the first function argument, you can place the other arguments in any order.
 
@@ -132,6 +132,7 @@ class SomeControllerName extends BaseController
 
 This will create all required files under the directory supplied on the `filesystems.php` file.
 
+`
 resources/lang/vendor/dbtranslator/
     - en
         - general.php
@@ -139,4 +140,4 @@ resources/lang/vendor/dbtranslator/
     - pt
         - general.php
         - some_group.php
-
+`
