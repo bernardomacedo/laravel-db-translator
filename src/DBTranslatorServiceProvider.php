@@ -2,9 +2,10 @@
 
 namespace bernardomacedo\DBTranslator;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Filesystem;
+use bernardomacedo\DBTranslator\Commands\DBTranslatorGenerator;
 
 class DBTranslatorServiceProvider extends ServiceProvider
 {
@@ -56,5 +57,13 @@ class DBTranslatorServiceProvider extends ServiceProvider
             __DIR__.'/../resources/config/laravel-db-translator.php', 'dbtranslator'
         );
         $this->app->singleton('dbtranslator', 'Bernardomacedo\DBTranslator\DBTranslator');
+
+        $this->app->singleton('dbtranslator.check', function ($app) {
+            return new DBTranslatorGenerator();
+        });
+
+        $this->commands([
+            'dbtranslator.check' // checks translations and adds to default english
+        ]);
     }
 }
