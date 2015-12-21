@@ -64,13 +64,23 @@ If you change the default disk name, because it might conflict with another pack
 
 ## Usage
 
-In a blade template use:
 
+Default language set to `App::getLocale()`.
+
+In a blade template use:
 ```php
 {{ lang('some text to translate') }}
 {{ lang(':count apple named :name|:count apples named :name', 2, ['name' => 'Bernardo']) }}
 {{ lang('{0} There are no apples (:count) named :name|[1,19] There are some (:count) apples named :name|[20,Inf] There are many (:count) apples named :name', ['name' => 'Bernardo'], 2) }}
 ```
+
+This translation method is easier to interpret because even if the translation is not found, the text you input will be returned.
+
+If the translations exist and they are generated
+```php
+{{ lang('some text to translate') }} // returns 'algum texto para traduzir'
+{{ lang('some text to translate', 'ru') }} // returns 'какой-нибудь текст' bypassing the current language forcing a locale.
+{{ lang('this text does not exists on the database') }} // returns 'this text does not exists on the database' and will be added for future translation
 
 ## What groups are for?
 
@@ -140,4 +150,4 @@ resources/lang/vendor/dbtranslator/
     - pt
         - general.php
         - some_group.php
-`
+

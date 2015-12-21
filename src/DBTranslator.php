@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Storage;
 class DBTranslator
 {
 
-    public static function hasTranslation($variable_id, $language)
+    public static function hasTranslation($variable_id, $language_id)
     {
-        return Translated::VarLang($variable->id, $language->id)->first();
+        return Translated::VarLang($variable_id, $language_id)->first();
     }
 
     public static function doTranslation($variable_id, $text, $language_id, $group = 'general')
