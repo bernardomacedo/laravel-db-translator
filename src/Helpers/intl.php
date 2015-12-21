@@ -1,12 +1,12 @@
 <?php
 
-use bernardomacedo\DBTranslator\Models\Intl;
-use bernardomacedo\DBTranslator\Models\Languages;
-
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Translation\Translator;
 use Symfony\Component\Translation\MessageSelector;
+use bernardomacedo\DBTranslator\Models\Intl;
+use bernardomacedo\DBTranslator\Models\Languages;
 
 function language_name() {
     $lang = Languages::whereIso(Lang::getLocale())->firstOrFail();
@@ -57,7 +57,9 @@ function lang($text = false)
      * Before anything lets change the locale to the intl locale
      */
     App::setLocale($params['locale']);
-
+    /**
+     * This will check the existence of the translation on the locale given, not the default
+     */
     if (Lang::has($file_namespace.'::'.$params['group'].'.'.$hash))
     {
         if ($choose) {
@@ -72,13 +74,57 @@ function lang($text = false)
     }
     else
     {
-        if (!Intl::whereText($text)->whereGroup($params['group'])->get()->count()) {
-            $intl               = new Intl;
-            $intl->text         = $text;
-            $intl->group        = $params['group'];
-            $intl->md5sha1      = $hash;
-            $intl->save();
+        /**
+         * If we are using the database translations
+         */
+        if ($config['use_database'])
+        {
+            if (!Intl::whereText($text)->whereGroup($params['group'])->get()->count()) {
+                $intl               = new Intl;
+                $intl->text         = $text;
+                $intl->group        = $params['group'];
+                $intl->md5sha1      = $hash;
+                $intl->save();
+            }
+        } else {
+            /**
+             * first we will check if the translation exists under the fallback language
+             */
+            App::setLocale($config['default_locale']);
+            if (!Lang::has($file_namespace.'::'.$params['group'].'.'.$hash))
+            {
+                // if we don't find it, we should include the file for the original locale
+                // change it with the new array, and save it.
+                /**
+                 * Determine if the file exists
+                 */
+                if (Storage::disk($config['storage_driver'])->exists($config['default_locale'].'/'.$params['group'].'.php'))
+                {
+                    $lang_array = require base_path('resources/lang/vendor/dbtranslator/'.$config['default_locale'].'/'.$params['group'].'.php');
+                    if (!isset($lang_array[$hash]))
+                    {
+                        $lang_array[$hash] = $text;
+                        $file = "<?php
+    return [\r\n";
+                        foreach ($lang_array as $k => $v)
+                        {
+                            $file .= "    \"".$k."\" => \"".str_replace('"', '\"', $v)."\",\r\n";
+                        }
+                        $file .= "];";
+                        Storage::disk($config['storage_driver'])->put($config['default_locale'].'/'.$params['group'].'.php', $file);
+                    }
+                    
+                } else {
+                    $file = "<?php
+return [\r\n";
+                    $file .= "    \"".$hash."\" => \"".str_replace('"', '\"', $text)."\",\r\n";
+                    $file .= "];";
+                    Storage::disk($config['storage_driver'])->put($config['default_locale'].'/'.$params['group'].'.php', $file);
+                }
+            }
+            App::setLocale($params['locale']);
         }
+        // now we will process the string
         if ($choose) {
             $params['vars']['count'] = $params['value'];
             $ms = new MessageSelector;

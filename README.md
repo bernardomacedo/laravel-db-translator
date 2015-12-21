@@ -67,6 +67,10 @@ If you change the default disk name, because it might conflict with another pack
             'driver'    => 'local',
             'root'      => base_path('resources/lang/vendor/dbtranslator')
         ],
+        'translator_views' => [
+            'driver'    => 'local',
+            'root'      => base_path('resources/views')
+        ],
         ...
 ```
 
@@ -196,6 +200,17 @@ class SomeControllerName extends BaseController
          $portuguese = Translated::language(64)->get(); // using ID for the language
     }
 }
+```
+
+## Inserting translations into database without rendering
+
+You can add translations to database without rendering a view.
+For this you can run a artisan command and `Laravel Database Translator` will check your view folders under `resources/views` and will add any entry of `lang('some text to translate')` to the database.
+Note that `lang($php_var)` is not supported so they will be ignored.
+
+Run 
+``` bash
+$ php artisan dbtranslator:check
 ```
 
 ### License
