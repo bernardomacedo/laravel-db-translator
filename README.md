@@ -161,7 +161,8 @@ class SomeControllerName extends BaseController
 {
     public function some_function()
     {
-        dd(Intl::all());
+        $all = Intl::all();
+        $group = Intl::group('general')->get();
     }
 }
 ```

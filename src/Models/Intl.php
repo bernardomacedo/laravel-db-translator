@@ -18,4 +18,9 @@ class Intl extends Model
     {
         return $this->hasMany('bernardomacedo\DBTranslator\Models\Translated');
     }
+
+    public function scopeGroup($query, $group)
+    {
+        return $query->whereGroup($group);
+    }
 }
