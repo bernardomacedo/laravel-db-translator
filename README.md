@@ -142,7 +142,7 @@ class SomeControllerName extends BaseController
 
 This will create all required files under the directory supplied on the `filesystems.php` file.
 
-`
+```
 resources/lang/vendor/dbtranslator/
     - en
         - general.php
@@ -150,4 +150,4 @@ resources/lang/vendor/dbtranslator/
     - pt
         - general.php
         - some_group.php
-
+```
