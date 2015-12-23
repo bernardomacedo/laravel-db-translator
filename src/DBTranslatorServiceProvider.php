@@ -5,7 +5,9 @@ namespace bernardomacedo\DBTranslator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Filesystem;
-use bernardomacedo\DBTranslator\Commands\DBTranslatorGenerator;
+use bernardomacedo\DBTranslator\Commands\DBTranslatorAdd;
+use bernardomacedo\DBTranslator\Commands\DBTranslatorGenerate;
+use bernardomacedo\DBTranslator\Commands\DBTranslatorRemove;
 
 class DBTranslatorServiceProvider extends ServiceProvider
 {
@@ -58,12 +60,24 @@ class DBTranslatorServiceProvider extends ServiceProvider
         );
         $this->app->singleton('dbtranslator', 'Bernardomacedo\DBTranslator\DBTranslator');
 
-        $this->app->singleton('dbtranslator.check', function ($app) {
-            return new DBTranslatorGenerator();
+        $this->app->singleton('dbtranslator.add', function ($app) {
+            return new DBTranslatorAdd();
+        });
+        $this->app->singleton('dbtranslator.remove', function ($app) {
+            return new DBTranslatorRemove();
+        });
+        $this->app->singleton('dbtranslator.generate', function ($app) {
+            return new DBTranslatorGenerate();
         });
 
         $this->commands([
-            'dbtranslator.check' // checks translations and adds to default english
+            'dbtranslator.insert' // checks translations and adds to default english
+        ]);
+        $this->commands([
+            'dbtranslator.remove' // checks all views and removes entries from database
+        ]);
+        $this->commands([
+            'dbtranslator.generate' // checks all views and removes entries from database
         ]);
     }
 }

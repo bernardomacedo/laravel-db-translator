@@ -148,6 +148,7 @@ class CreateTranslationsTables extends Migration
                 $table->text('text');
                 $table->text('group');
                 $table->string('md5sha1', 255);
+                $table->boolean('dynamic')->default(0);
                 $table->timestamps();
             });
         }

@@ -29,7 +29,6 @@ return [
      * If your driver name is different than the default one, please add it here
      */
     'storage_driver' => 'translator',
-    'storage_views_driver' => 'translator_views',
     'default_locale'    => 'en',
     /**
      * This functionality is under testing, don't change this to true. You might get unexpected results.

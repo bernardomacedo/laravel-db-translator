@@ -5,17 +5,15 @@
         "bernardomacedo",
         "laravel-db-translator",
         "laravel",
-        "translation",
-        "database translation",
-        "generators"
+        "translation"
     ],
+    "homepage": "https://github.com/bernardomacedo/laravel-db-translator",
     "license": "MIT",
     "authors": [
         {
             "name": "Bernardo Sousa de Macedo",
             "email": "bernardo.macedo@gmail.com",
-            "role": "Developer",
-            "homepage": "https://github.com/bernardomacedo/laravel-db-translator"
+            "role": "Developer"
         }
     ],
     "require": {

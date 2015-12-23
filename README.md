@@ -67,10 +67,6 @@ If you change the default disk name, because it might conflict with another pack
             'driver'    => 'local',
             'root'      => base_path('resources/lang/vendor/dbtranslator')
         ],
-        'translator_views' => [
-            'driver'    => 'local',
-            'root'      => base_path('resources/views')
-        ],
         ...
 ```
 
@@ -80,18 +76,24 @@ If you change the default disk name, because it might conflict with another pack
 Default language set to `App::getLocale()`.
 
 In a blade template use:
+
+```php
+function lang($text = false, $vars = null, $value = null, $group = null, $locale = null)
+```
+
 ```php
 {{ lang('some text to translate') }}
-{{ lang(':count apple named :name|:count apples named :name', 2, ['name' => 'Bernardo']) }}
+{{ lang(':count apple named :name|:count apples named :name', ['name' => 'Bernardo'], 2) }}
 {{ lang('{0} There are no apples (:count) named :name|[1,19] There are some (:count) apples named :name|[20,Inf] There are many (:count) apples named :name', ['name' => 'Bernardo'], 2) }}
 ```
 
 This translation method is easier to interpret because even if the translation is not found, the text you input will be returned.
 
 If the translations exist and they are generated
+
 ```php
 {{ lang('some text to translate') }} // returns 'algum texto para traduzir'
-{{ lang('some text to translate', 'ru') }} // returns 'какой-нибудь текст' bypassing the current language forcing a locale.
+{{ lang('some text to translate', null, null, null, 'ru') }} // returns 'какой-нибудь текст' bypassing the current language forcing a locale.
 {{ lang('this text does not exists on the database') }} // returns 'this text does not exists on the database' and will be added for future translation
 
 ## What groups are for?
@@ -101,12 +103,17 @@ So, the group parameter allows you to differentiate the same translation to be t
 
 ```php
 {{ lang('participations') }}                /* general group assumed */
-{{ lang('participations', 'some_group') }}  /* some_group group assumed */
+{{ lang('participations', null, null, 'some_group') }}  /* some_group group assumed */
 ```
 
-`Note: be sure the group parameter has more than 2 characters long, so DBTRanslator does not confuse it by a language.
+### Dynamic groups and variables
+When using dynamic variables for translation, be sure to force a group named 'dynamic_...'
 
-As long as the translating text is the first function argument, you can place the other arguments in any order.
+```php
+{{ lang($language_name, null, null, 'dynamic_language') }} /* language group assumed with dynamic flag on database */
+{{ lang($SomeDynamicVar, null, null, 'dynamic_some_group') }}      /* some_group group assumed with dynamic flag on database */
+```
+
 
 ## Translating a text
 
@@ -202,18 +209,45 @@ class SomeControllerName extends BaseController
 }
 ```
 
-## Inserting translations into database without rendering
+## Inserting / Removing translations into/from database without rendering views in the browser
 
 You can add translations to database without rendering a view.
-For this you can run a artisan command and `Laravel Database Translator` will check your view folders under `resources/views` and will add any entry of `lang('some text to translate')` to the database.
-Note that `lang($php_var)` is not supported so they will be ignored.
+For this you can run a artisan command and `Laravel Database Translator` will check your view folders configured under `config/view.php` config file `paths` and will add any element of lang(*) found to the database.
 
-Run 
+### Inserting translations
+
 ``` bash
-$ php artisan dbtranslator:check
+$ php artisan dbtranslator:add
 ```
 
-### License
+### Removing unused translations
+
+``` bash
+$ php artisan dbtranslator:remove
+```
+
+When running these commands, `Dynamic groups` and `$variables will be ignored.
+eg:
+```php
+lang($php_var) /* is not supported so they will be ignored */
+``
+
+## Generating translations
+
+``` bash
+$ # generates for Portuguese
+$ php artisan dbtranslator:generate pt
+$ # generates for Spanish
+$ php artisan dbtranslator:generate es
+$ # generates all languages
+$ php artisan dbtranslator:generate --status=all
+$ # generates active languages
+$ php artisan dbtranslator:generate --status=active
+$ # generates inactive languages
+$ php artisan dbtranslator:generate --status=inactive
+```
+
+## License
 
 The Laravel Database Translator is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 
