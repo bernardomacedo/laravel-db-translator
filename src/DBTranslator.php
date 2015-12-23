@@ -69,11 +69,11 @@ class DBTranslator
         } else {
             $languages = Languages::whereStatus(1)->get();
         }
-        
         /**
          * Get the list of available variables in the database
          */
         $variables = Intl::all();
+        $arr = [];
         foreach ($languages as $language)
         {
             /**
@@ -90,7 +90,7 @@ class DBTranslator
                 $arr[$language->iso][$variable->group][] = [md5($variable->text).sha1($variable->text) => $translation ];
             }
         }
-
+        
         foreach ($arr as $language => $values)
         {
             foreach ($values as $group => $trans)
