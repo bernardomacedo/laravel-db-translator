@@ -71,7 +71,7 @@ class DBTranslatorServiceProvider extends ServiceProvider
         });
 
         $this->commands([
-            'dbtranslator.insert' // checks translations and adds to default english
+            'dbtranslator.add' // checks translations and adds to default english
         ]);
         $this->commands([
             'dbtranslator.remove' // checks all views and removes entries from database
