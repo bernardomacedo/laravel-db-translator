@@ -5,8 +5,12 @@
 [![Latest Unstable Version](https://poser.pugx.org/bernardomacedo/laravel-db-translator/v/unstable.svg)](https://packagist.org/packages/bernardomacedo/laravel-db-translator)
 [![License](https://poser.pugx.org/bernardomacedo/laravel-db-translator/license.svg)](https://packagist.org/packages/bernardomacedo/laravel-db-translator)
 
-This package allows you to add translations to database.
-It replaces the current language translator with a more efficient one.
+This package allows you to add translations to database and generates the localization folders per group.
+
+Note:
+- It does not replace the current Laravel translator by using another function call to build key/value translations.
+- It does not conflict with your current Laravel project.
+- It does not replace any of your current translations and works seamlessly with your language files, because this package generates it's own language files and directories.
 
 ## Compatibility
 Laravel Framework 5.1.27
