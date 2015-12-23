@@ -5,6 +5,7 @@ namespace bernardomacedo\DBTranslator\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Finder\Finder;
 use bernardomacedo\DBTranslator\Models\Intl;
 
 class DBTranslatorRemove extends Command
@@ -31,52 +32,65 @@ class DBTranslatorRemove extends Command
     public function handle()
     {
         $variables = Intl::whereDynamic(0)->get()->toArray();
+        /**
+         * Get all files in views
+         */
+        $paths = [];
+        
         $folders = config('view');
+        $paths[] = base_path('app/Http');
         foreach ($folders['paths'] as $folder) {
-            $files = File::allFiles($folder);
-            foreach ($files as $file) {
-                $fa[] = $file;
-            }
+            $paths[] = $folder;
         }
-        $check = [];
-        foreach ($fa as $file)
-        {
-            $file = (string)$file;
-            if (basename($file) != '.DS_Store')
-            {
-                $this->info('PROCESSING FILE: '.$file);
-                $f = File::get($file);
-                while(preg_match_all('/(lang(?:(\s?|\s+))\((?:(\s?|\s+))(?:(\\\'|\")|(\\$))([^\(\)]|(R))+(?:(\\\'|\")|(\]|null)|(\s?)|\s+)\))/', $f, $matches))
-                {
-                    foreach ($matches[0] as $key => $match) {
-                        if (!preg_match('/(lang(?:(\s?|\s+))\()(?:(\s?|\s+))(?:(\\$))/', $match))
-                        {
-                            preg_match_all('/lang(?:\s*)\((?:(?:\s*)(?:\\\'|\")(.*?)(?:\\\'|\"))(?:(?:\s*)(?:\,(?:\s*)((?:\[|array\().*(?:\]|\))|null)(?:\s*)(?:\,(?:\s*)(?:(\d+?|null))(?:\s*)(?:\,(?:\s*)(?:\\\'|\")(.*?)(?:\\\'|\")(?:\s*)?)?)?)?)\)/', $match, $d);
-                            if (!empty($d[1][0]) and (!empty($d[4][0]) and ($d[4][0] != 'null')))
-                            {
-                                if (!isset($check[$d[4][0]])) {
-                                    $check[$d[4][0]] = [];
-                                }
-                                if (!in_array($d[1][0], array_values($check[$d[4][0]])))
-                                {
-                                    $check[$d[4][0]][] = $d[1][0];
-                                }
-                            } elseif (!empty($d[1][0])) {
-                                
-                                if (!isset($check['general'])) {
-                                    $check['general'] = [];
-                                }
-                                if (!in_array($d[1][0], array_values($check['general'])))
-                                {
-                                    $check['general'][] = $d[1][0];
-                                }
-                            }
-                        }
+        
+        $keys = [];
+        $bar_path = $this->output->createProgressBar(count($paths));
+        foreach ($paths as $key => $path) {
+            //$this->info('PATH: "'.$path);
+            $finder = new Finder();
+
+            $bar_finder = $this->output->createProgressBar(count($finder->in($path)->name('*.php')->files()));
+            foreach ($finder as $file) {
+
+                //$this->info('FILE: "'.$file->getRelativePathname());
+                $f = $file->getContents();
+                while(preg_match_all("/(lang(?:\\s?|\\s*)\\((?:\\s?|\\s*)(?:\\'|\\\"|\\$)(?:[^\\(\\)]|(R))+(?:\\'|\\\"|\\]|null|\\s?|\\s*)\\))/", $f, $matches)) {
+                    // Get all matches
+                    foreach ($matches[0] as $key) {
+                        $keys[] = $key;
                     }
-                    $f = preg_replace('/(lang(?:(\s?|\s+))\((?:(\s?|\s+))(?:(\\\'|\")|(\\$))([^\(\)]|(R))+(?:(\\\'|\")|(\]|null)|(\s?)|\s+)\))/', "''", $f);
+                    $f = preg_replace("/(lang(?:\\s?|\\s*)\\((?:\\s?|\\s*)(?:\\'|\\\"|\\$)(?:[^\\(\\)]|(R))+(?:\\'|\\\"|\\]|null|\\s?|\\s*)\\))/", "''", $f);
+                }
+                $bar_finder->advance();
+            }
+            $bar_path->advance();
+        }
+        
+        $bar_finder->finish();
+        $bar_path->finish();
+
+        $keys = array_unique($keys);
+        $check = [];
+        $bar = $this->output->createProgressBar(count($keys));
+        foreach ($keys as $key => $match) {
+            if (! preg_match('/(lang(?:(\s?|\s+))\()(?:(\s?|\s+))(?:(\\$))/', $match))
+            {
+
+                // if it is not a dynamic variable
+                preg_match_all('/lang(?:\s*)\((?:(?:\s*)(?:\\\'|\")(.*?)(?:\\\'|\"))(?:(?:\s*)(?:\,(?:\s*)((?:\[|array\().*(?:\]|\))|null)(?:\s*)(?:\,(?:\s*)(?:(\d+?|null))(?:\s*)(?:\,(?:\s*)(?:\\\'|\")(.*?)(?:\\\'|\")(?:\s*)?)?)?)?)\)/', $match, $d);
+                if (!empty($d[1][0]) and (!empty($d[4][0]) and ($d[4][0] != 'null')))
+                {
+                    $check[$d[4][0]][] = $d[1][0];
+                    //$this->info('INSERTING: "'.$d[1][0].'" on "'.$d[4][0].'" group.');
+                } elseif (!empty($d[1][0])) {
+                    $check['general'][] = $d[1][0];
+                    //$this->info('INSERTING: "'.$d[1][0].'" on "general" group.');
                 }
             }
+            $bar->advance();
         }
+        $bar->finish();
+
         /**
          * lets iterate though all variables in the database and see which ones need to be removed
          */

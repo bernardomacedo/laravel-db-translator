@@ -15,20 +15,27 @@ class DBTranslator
         return Translated::VarLang($variable_id, $language_id)->first();
     }
 
+    /**
+     * Saves a translation into database.
+     * 
+     * @param int $variable_id, variable_id 
+     * @param int $text 
+     * @param int $language_id, string 
+     * @param string $group
+     * 
+     * @return bool
+     */
     public static function doTranslation($variable_id, $text, $language_id, $group = 'general')
     {
-        if (!is_integer($language_id))
-        {
+        if (! is_integer($language_id)) {
             $language_id = Languages::whereIso($language_id)->first()->id;
         }
-        if (!is_integer($variable_id))
-        {
+        if (! is_integer($variable_id)) {
             /**
              * First lets check if the translation exists or it has been previously
              * submitted for translation
              */
-            if ($var = Intl::whereText($variable_id)->whereGroup($group)->first())
-            {
+            if ($var = Intl::whereText($variable_id)->whereGroup($group)->first()) {
                 $variable_id = $var->id;
             } else {
                 $var = new Intl;
