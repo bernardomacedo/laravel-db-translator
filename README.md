@@ -14,7 +14,7 @@ Laravel Framework 5.1.27
 ## Install
 
 ``` bash
-$ composer require bernardomacedo/laravel-db-translator:dev-master
+$ composer require bernardomacedo/laravel-db-translator
 ```
 
 First register the service provider and facade in your application.
