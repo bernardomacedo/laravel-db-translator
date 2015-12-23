@@ -89,12 +89,11 @@ function lang($text = false, $vars = null, $value = null, $group = null, $locale
 
 This translation method is easier to interpret because even if the translation is not found, the text you input will be returned.
 
-If the translations exist and they are generated
-
 ```php
 {{ lang('some text to translate') }} // returns 'algum texto para traduzir'
 {{ lang('some text to translate', null, null, null, 'ru') }} // returns 'какой-нибудь текст' bypassing the current language forcing a locale.
 {{ lang('this text does not exists on the database') }} // returns 'this text does not exists on the database' and will be added for future translation
+```
 
 ## What groups are for?
 
