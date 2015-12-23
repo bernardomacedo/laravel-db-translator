@@ -12,47 +12,34 @@ function language_name() {
     $lang = Languages::whereIso(Lang::getLocale())->firstOrFail();
     return $lang->name;
 }
-
-function lang($text = false)
+/**
+ * If using the return method, it will return an array of the variable
+ */
+function lang($text = false, $vars = null, $value = null, $group = null, $locale = null, $return = false)
 {
-    $args = func_get_args();
-    unset($args[0]);
-    foreach ($args as $key => $arg) {
-        switch (gettype($arg))
-        {
-            case 'integer':
-                $params['value'] = $arg;
-                break;
-            case 'array':
-                $params['vars'] = $arg;
-                break;
-            case 'string':
-                if (strlen($arg) == 2) {
-                    $params['locale'] = $arg;
-                } else {
-                    $params['group'] = $arg;
-                }
-                break;
-        }
-    }
+    $original_locale        = Lang::getLocale();
 
-    if (preg_match('/^|/', $text)) {
+    $params['value']    = $value ? $value : 0;
+    $params['vars']     = $vars ? $vars : [];
+    $params['locale']   = $locale ? $locale : $original_locale;
+    $params['group']    = $group ? $group : 'general';
+    $params['dynamic']  = false;
+    if (preg_match('/dynamic_/', $params['group']))
+    {
+        $params['group'] = preg_replace('/dynamic_/', '', $params['group']);
+        $params['dynamic']  = true;
+    }
+    $hash               = md5($text).sha1($text);
+    $file_namespace     = 'dbtranslator';
+
+    if (preg_match('/\|/', $text)) {
         $choose = true;
     } else {
         $choose = false;
     }
 
     $config = config('db-translator');
-    /**
-     * lets save the locale in a variable
-     */
-    $original_locale        = Lang::getLocale();
-    $file_namespace         = 'dbtranslator';
-    $params['group']        = isset($params['group']) ? $params['group'] : 'general';
-    $hash                   = md5($text).sha1($text);
-    $params['vars']         = isset($params['vars']) ? $params['vars'] : [];
-    $params['locale']       = isset($params['locale']) ? $params['locale'] : $original_locale;
-    $params['value']        = isset($params['value']) ? $params['value'] : 0;
+
     /**
      * Before anything lets change the locale to the intl locale
      */
@@ -84,6 +71,7 @@ function lang($text = false)
                 $intl->text         = $text;
                 $intl->group        = $params['group'];
                 $intl->md5sha1      = $hash;
+                $intl->dynamic      = $params['dynamic'];
                 $intl->save();
             }
         } else {
@@ -127,6 +115,7 @@ return [\r\n";
         // now we will process the string
         if ($choose) {
             $params['vars']['count'] = $params['value'];
+
             $ms = new MessageSelector;
             $text = $ms->choose($text, $params['value'], $params['locale']);
             $params['vars'] = (new Collection($params['vars']))->sortBy(function ($value, $key) {
