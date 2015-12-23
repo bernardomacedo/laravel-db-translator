@@ -47,6 +47,7 @@ function lang($text = false, $vars = null, $value = null, $group = null, $locale
     /**
      * This will check the existence of the translation on the locale given, not the default
      */
+
     if (!$force_add) {
         if (Lang::has($file_namespace.'::'.$params['group'].'.'.$hash))
         {
@@ -142,8 +143,10 @@ function lang($text = false, $vars = null, $value = null, $group = null, $locale
             }
         }
     } else {
+
         if ($config['use_database'])
         {
+
             if (!Intl::whereText($text)->whereGroup($params['group'])->get()->count()) {
                 $intl               = new Intl;
                 $intl->text         = $text;
