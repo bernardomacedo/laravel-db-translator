@@ -56,10 +56,10 @@ class DBTranslatorAdd extends Command
                             preg_match_all('/lang(?:\s*)\((?:(?:\s*)(?:\\\'|\")(.*?)(?:\\\'|\"))(?:(?:\s*)(?:\,(?:\s*)((?:\[|array\().*(?:\]|\))|null)(?:\s*)(?:\,(?:\s*)(?:(\d+?|null))(?:\s*)(?:\,(?:\s*)(?:\\\'|\")(.*?)(?:\\\'|\")(?:\s*)?)?)?)?)\)/', $match, $d);
                             if (!empty($d[1][0]) and (!empty($d[4][0]) and ($d[4][0] != 'null')))
                             {
-                                $insert = lang($d[1][0], null, null, $d[4][0]);
+                                $insert = lang($d[1][0], null, null, $d[4][0], true);
                                 $this->info('INSERTING: "'.$d[1][0].'" on "'.$d[4][0].'" group.');
                             } elseif (!empty($d[1][0])) {
-                                $insert = lang($d[1][0]);
+                                $insert = lang($d[1][0], null, null, 'general', true);
                                 $this->info('INSERTING: "'.$d[1][0].'" on "general" group.');
                             }
                         }
