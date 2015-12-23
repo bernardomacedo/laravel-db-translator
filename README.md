@@ -228,22 +228,31 @@ $ php artisan dbtranslator:remove
 
 When running these commands, `Dynamic groups` and `$variables will be ignored.
 eg:
+
 ```php
 lang($php_var) /* is not supported so they will be ignored */
-``
+```
 
 ## Generating translations
 
+Generates for Portuguese
 ``` bash
-$ # generates for Portuguese
 $ php artisan dbtranslator:generate pt
-$ # generates for Spanish
+```
+Generates for Spanish
+``` bash
 $ php artisan dbtranslator:generate es
-$ # generates all languages
+```
+Generates all languages
+``` bash
 $ php artisan dbtranslator:generate --status=all
-$ # generates active languages
+```
+Generates active languages
+``` bash
 $ php artisan dbtranslator:generate --status=active
-$ # generates inactive languages
+```
+Generates inactive languages
+``` bash
 $ php artisan dbtranslator:generate --status=inactive
 ```
 
