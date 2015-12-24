@@ -54,12 +54,12 @@ class DBTranslatorRemove extends Command
 
                 //$this->info('FILE: "'.$file->getRelativePathname());
                 $f = $file->getContents();
-                while(preg_match_all("/(lang(?:\\s?|\\s*)\\((?:\\s?|\\s*)(?:\\'|\\\"|\\$)(?:[^\\(\\)]|(R))+(?:\\'|\\\"|\\]|null|\\s?|\\s*)\\))/", $f, $matches)) {
+                while(preg_match_all("/(lang\\s*\\(\\s*(?:\\'|\\\"|\\$)(?:[^\\(\\)]|(R))+(?:\\'|\\\"|\\]|null|\\s*)\\))/", $f, $matches)) {
                     // Get all matches
                     foreach ($matches[0] as $key) {
                         $keys[] = $key;
                     }
-                    $f = preg_replace("/(lang(?:\\s?|\\s*)\\((?:\\s?|\\s*)(?:\\'|\\\"|\\$)(?:[^\\(\\)]|(R))+(?:\\'|\\\"|\\]|null|\\s?|\\s*)\\))/", "''", $f);
+                    $f = preg_replace("/(lang\\s*\\(\\s*(?:\\'|\\\"|\\$)(?:[^\\(\\)]|(R))+(?:\\'|\\\"|\\]|null|\\s*)\\))/", "''", $f);
                 }
                 $bar_finder->advance();
             }
