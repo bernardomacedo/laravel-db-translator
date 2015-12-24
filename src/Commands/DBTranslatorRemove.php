@@ -94,8 +94,8 @@ class DBTranslatorRemove extends Command
         /**
          * lets iterate though all variables in the database and see which ones need to be removed
          */
+        $to_remove = false;
         if (count($variables) > 0) {
-            $to_remove = false;
             foreach ($variables as $key => $variable) {
                 if (!isset($check[$variable['group']]))
                 {
