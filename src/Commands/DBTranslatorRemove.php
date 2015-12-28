@@ -94,25 +94,25 @@ class DBTranslatorRemove extends Command
         /**
          * lets iterate though all variables in the database and see which ones need to be removed
          */
-        $to_remove = false;
+        $toremove = false;
         if (count($variables) > 0) {
             foreach ($variables as $key => $variable) {
                 if (!isset($check[$variable['group']]))
                 {
-                    $to_remove = true;
+                    $toremove = true;
                     $remove[] = $variable['id'];
                     $this->info('TO REMOVE: "'.$variable['group'].':'.$variable['md5sha1'].'.'.$variable['text'].'"');
                 } else {
                     if (!in_array($variable['text'], array_values($check[$variable['group']])))
                     {
-                        $to_remove = true;
+                        $toremove = true;
                         $remove[] = $variable['id'];
                         $this->info('TO REMOVE: "'.$variable['group'].':'.$variable['md5sha1'].'.'.$variable['text'].'"');
                     }
                 }
             }
         }
-        if ($to_remove) {
+        if ($toremove) {
             if ($this->confirm('Do you wish to continue removing this from database? [yes|no]'))
             {
                 foreach ($remove as $key => $id) {
