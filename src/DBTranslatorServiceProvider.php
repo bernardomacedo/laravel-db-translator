@@ -39,7 +39,7 @@ class DBTranslatorServiceProvider extends ServiceProvider
         /**
          * Create an helper file for using at blade like {{ intl() }}
          */
-        require __DIR__.'/Helpers/intl.php';
+        //require __DIR__.'/Helpers/intl.php';
 
         Storage::extend('translations', function() {
             $client = [
@@ -56,7 +56,7 @@ class DBTranslatorServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../resources/config/laravel-db-translator.php', 'dbtranslator'
+            __DIR__.'/../resources/config/laravel-db-translator.php', 'db-translator'
         );
         $this->app->singleton('dbtranslator', 'Bernardomacedo\DBTranslator\DBTranslator');
 
