@@ -33,14 +33,12 @@
     "autoload": {
         "psr-4": {
             "bernardomacedo\\DBTranslator\\": "src/"
-        },
-        "files": ["src/Helpers/Intl.php"]
+        }
     },
     "autoload-dev": {
         "psr-4": {
             "bernardomacedo\\DBTranslator\\Test\\": "tests/"
-        },
-        "files": ["src/Helpers/Intl.php"]
+        }
     },
     "support": {
         "issues": "https://github.com/bernardomacedo/laravel-db-translator/issues",
