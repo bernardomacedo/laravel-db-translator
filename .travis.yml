@@ -12,8 +12,8 @@ matrix:
     - php: hhvm
 
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev
+  - php composer.phar update
 
-script:
-  - phpunit
+script: phpunit
