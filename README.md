@@ -14,7 +14,7 @@ Note:
 - It does not replace any of your current translations and works seamlessly with your language files, because this package generates it's own language files and directories.
 
 ## Compatibility
-Laravel Framework 5.1.27
+Laravel Framework 5.2
 
 ## Install
 
