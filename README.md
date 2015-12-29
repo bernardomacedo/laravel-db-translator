@@ -4,6 +4,9 @@
 [![Latest Stable Version](https://poser.pugx.org/bernardomacedo/laravel-db-translator/v/stable.svg)](https://packagist.org/packages/bernardomacedo/laravel-db-translator)
 [![Latest Unstable Version](https://poser.pugx.org/bernardomacedo/laravel-db-translator/v/unstable.svg)](https://packagist.org/packages/bernardomacedo/laravel-db-translator)
 [![License](https://poser.pugx.org/bernardomacedo/laravel-db-translator/license.svg)](https://packagist.org/packages/bernardomacedo/laravel-db-translator)
+[![Build Status](https://img.shields.io/travis/bernardomacedo/laravel-db-translator.svg)](https://packagist.org/packages/bernardomacedo/laravel-db-translator)
+
+https://img.shields.io/travis/bernardomacedo/laravel-db-translator.svg
 
 This package allows you to add translations to database and generates the localization folders per group.
 
