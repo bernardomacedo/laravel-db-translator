@@ -39,7 +39,7 @@ class DBTranslatorServiceProvider extends ServiceProvider
         /**
          * Create an helper file for using at blade like {{ intl() }}
          */
-        require __DIR__.'/Helpers/intl.php';
+        //require __DIR__.'/Helpers/intl.php';
 
         Storage::extend('translations', function() {
             $client = [
