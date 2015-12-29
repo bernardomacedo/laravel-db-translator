@@ -39,7 +39,6 @@ function lang($text = false, $vars = null, $value = null, $group = null, $locale
     }
 
     $config = config('db-translator');
-
     /**
      * Before anything lets change the locale to the intl locale
      */

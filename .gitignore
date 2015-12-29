@@ -1,5 +1,8 @@
 /vendor
+/tests/temp
 composer.phar
 composer.lock
 tests/_output/*
 tests/database.sqlite
+.DS_Store
+tests/temp/database.sqlite
