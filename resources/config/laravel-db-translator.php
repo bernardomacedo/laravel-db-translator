@@ -23,7 +23,7 @@ return [
         /**
          * Place your User model in this option
          */
-        'user'  => config('auth.model'),
+        'user'  => config('auth.providers.users.model'),
     ],
     /**
      * If your driver name is different than the default one, please add it here
