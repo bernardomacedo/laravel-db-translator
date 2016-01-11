@@ -2,14 +2,14 @@
 
 namespace bernardomacedo\DBTranslator;
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use bernardomacedo\DBTranslator\Models\Intl;
 use bernardomacedo\DBTranslator\Models\Languages;
 use bernardomacedo\DBTranslator\Models\Translated;
-use Illuminate\Support\Facades\Storage;
 
 class DBTranslator
 {
-
     public static function hasTranslation($variable_id, $language_id)
     {
         return Translated::VarLang($variable_id, $language_id)->first();
@@ -100,6 +100,7 @@ class DBTranslator
         
         foreach ($arr as $language => $values)
         {
+            \File::deleteDirectory(base_path('resources/lang/vendor/dbtranslator/'.$language), true);
             foreach ($values as $group => $trans)
             {
                 $file = "<?php
