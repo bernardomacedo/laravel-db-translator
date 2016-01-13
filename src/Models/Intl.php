@@ -16,7 +16,7 @@ class Intl extends Model
 
     public function translations()
     {
-        return $this->hasMany('bernardomacedo\DBTranslator\Models\Translated');
+        return $this->hasMany('bernardomacedo\DBTranslator\Models\Translated', 'variable_id');
     }
 
     public function scopeGroup($query, $group)
