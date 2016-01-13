@@ -9,8 +9,13 @@ use bernardomacedo\DBTranslator\Models\Intl;
 use bernardomacedo\DBTranslator\Models\Languages;
 
 function language_name() {
-    $lang = Languages::whereIso(Lang::getLocale())->firstOrFail();
-    return $lang->name;
+    if ($value = session('dbtranslator-language-name')) {
+        return $value;
+    } else {
+        $lang = Languages::whereIso(Lang::getLocale())->firstOrFail();
+        session(['dbtranslator-language-name' => $lang->name]);
+        return $lang->name;
+    }
 }
 /**
  * If using the return method, it will return an array of the variable
