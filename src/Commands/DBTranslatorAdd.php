@@ -44,26 +44,32 @@ class DBTranslatorAdd extends Command
         $keys = [];
         $bar_path = $this->output->createProgressBar(count($paths));
         foreach ($paths as $key => $path) {
-            //$this->info('PATH: "'.$path);
             $finder = new Finder();
 
             $bar_finder = $this->output->createProgressBar(count($finder->in($path)->name('*.php')->files()));
             foreach ($finder as $file) {
-
-                //$this->info('FILE: "'.$file->getRelativePathname());
                 $f = $file->getContents();
-                while(preg_match_all("/(lang\\s*\\(\\s*(?:\\'|\\\"|\\$)(?:[^\\(\\)]|(R))+(?:\\'|\\\"|\\]|null|\\s*)\\))/", $f, $matches)) {
-                    // Get all matches
+                while(preg_match_all("/lang(?:\\s*)\\((?:(?:\\s*)(?:\\'|\\\")(.*?)(?:\\'|\\\"))(?:(?:\\s*)(?:\\,(?:\\s*)((?:\\[|array\\().*(?:\\]|\\))|null)(?:\\s*)(?:\\,(?:\\s*)(?:(\\d+?|null))(?:\\s*)(?:\\,(?:\\s*)(?:\\'|\\\")(.*?)(?:\\'|\\\")(?:\\s*)?)?)?)?)\\)/", $f, $matches)) {
+                    foreach ($matches[1] as $k) {
+                        while(preg_match_all("/lang(?:\\s*)\\((?:(?:\\s*)(?:\\'|\\\")(.*?)(?:\\'|\\\"))(?:(?:\\s*)(?:\\,(?:\\s*)((?:\\[|array\\().*(?:\\]|\\))|null)(?:\\s*)(?:\\,(?:\\s*)(?:(\\d+?|null))(?:\\s*)(?:\\,(?:\\s*)(?:\\'|\\\")(.*?)(?:\\'|\\\")(?:\\s*)?)?)?)?)\\)/", $f, $k)) {
+                            foreach ($k[0] as $key) {
+                                $keys[] = $key;
+                            }
+                            $f = str_replace($key, "''", $f);
+                        }
+                    }
+                }
+                while(preg_match_all("/lang(?:\\s*)\\((?:(?:\\s*)(?:\\'|\\\")(.*?)(?:\\'|\\\"))(?:(?:\\s*)(?:\\,(?:\\s*)((?:\\[|array\\().*(?:\\]|\\))|null)(?:\\s*)(?:\\,(?:\\s*)(?:(\\d+?|null))(?:\\s*)(?:\\,(?:\\s*)(?:\\'|\\\")(.*?)(?:\\'|\\\")(?:\\s*)?)?)?)?)\\)/", $f, $matches)) {
                     foreach ($matches[0] as $key) {
                         $keys[] = $key;
                     }
-                    $f = preg_replace("/(lang\\s*\\(\\s*(?:\\'|\\\"|\\$)(?:[^\\(\\)]|(R))+(?:\\'|\\\"|\\]|null|\\s*)\\))/", "''", $f);
+                    $f = str_replace($key, "''", $f);
                 }
                 $bar_finder->advance();
             }
             $bar_path->advance();
         }
-        
+
         $bar_finder->finish();
         $bar_path->finish();
 
@@ -71,19 +77,16 @@ class DBTranslatorAdd extends Command
 
         $bar = $this->output->createProgressBar(count($keys));
         foreach ($keys as $key => $match) {
-            if (! preg_match('/(lang(?:(\s?|\s+))\()(?:(\s?|\s+))(?:(\\$))/', $match))
+            if (! preg_match("/(lang(?:(\\s?|\\s+))\\()(?:(\\s?|\\s+))(?:(\\$))/", $match))
             {
-
                 // if it is not a dynamic variable
-                preg_match_all('/lang(?:\s*)\((?:(?:\s*)(?:\\\'|\")(.*?)(?:\\\'|\"))(?:(?:\s*)(?:\,(?:\s*)((?:\[|array\().*(?:\]|\))|null)(?:\s*)(?:\,(?:\s*)(?:(\d+?|null))(?:\s*)(?:\,(?:\s*)(?:\\\'|\")(.*?)(?:\\\'|\")(?:\s*)?)?)?)?)\)/', $match, $d);
+                preg_match_all("/lang(?:\\s*)\\((?:(?:\\s*)(?:\\'|\\\")(.*?)(?:\\'|\\\"))(?:(?:\\s*)(?:\\,(?:\\s*)((?:\\[|array\\().*(?:\\]|\\))|null)(?:\\s*)(?:\\,(?:\\s*)(?:(\\d+?|null))(?:\\s*)(?:\\,(?:\\s*)(?:\\'|\\\")(.*?)(?:\\'|\\\")(?:\\s*)?)?)?)?)\\)/", $match, $d);
                 
                 if (!empty($d[1][0]) and (!empty($d[4][0]) and ($d[4][0] != 'null')))
                 {
                     $insert = lang($d[1][0], null, null, $d[4][0], null, true);
-                    //$this->info('INSERTING: "'.$d[1][0].'" on "'.$d[4][0].'" group.');
                 } elseif (!empty($d[1][0])) {
                     $insert = lang($d[1][0], null, null, 'general', null, true);
-                    //$this->info('INSERTING: "'.$d[1][0].'" on "general" group.');
                 }
             }
             $bar->advance();
