@@ -13,6 +13,7 @@ Note:
 - It does not replace the current Laravel translator by using another function call to build key/value translations.
 - It does not conflict with your current Laravel project.
 - It does not replace any of your current translations and works seamlessly with your language files, because this package generates it's own language files and directories.
+- Dev Laravel 5.6
 
 ## Compatibility
 Laravel Framework 5.6
