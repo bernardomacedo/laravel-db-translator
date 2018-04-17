@@ -1,6 +1,6 @@
 {
     "name": "bernardomacedo/laravel-db-translator",
-    "description": "Laravel 5 database translation extension",
+    "description": "Laravel 5.6 database translation extension",
     "keywords": [
         "bernardomacedo",
         "laravel-db-translator",
@@ -17,13 +17,13 @@
         }
     ],
     "require": {
-        "illuminate/support": "5.3.x",
-        "illuminate/translation": "5.3.x",
-        "illuminate/database": "5.3.x",
-        "illuminate/console": "5.3.x",
-        "illuminate/filesystem": "5.3.x",
-        "illuminate/config": "5.3.x",
-        "illuminate/routing": "5.3.x"
+        "illuminate/support": "5.6.x",
+        "illuminate/translation": "5.6.x",
+        "illuminate/database": "5.6.x",
+        "illuminate/console": "5.6.x",
+        "illuminate/filesystem": "5.6.x",
+        "illuminate/config": "5.6.x",
+        "illuminate/routing": "5.6.x"
     },
     "require-dev": {
         "phpunit/phpunit" : "^5",
